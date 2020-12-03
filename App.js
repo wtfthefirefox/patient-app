@@ -1,21 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
+import { NativeRouter } from 'react-router-native';
+// import { Provider } from 'react-redux';
+import Portal from '@burstware/react-native-portal';
 
-export default function App() {
+import AppPage from './src/componets/appPage';
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Portal.Host>
+      <NativeRouter>
+        <SafeAreaView style={{backgroundColor: "#c4c4c4"}}>
+          <View style={{backgroundColor: '#ffffff'}}>
+            <AppPage />
+          </View>
+        </SafeAreaView>
+      </NativeRouter>
+    </Portal.Host>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
