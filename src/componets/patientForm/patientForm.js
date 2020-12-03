@@ -12,6 +12,14 @@ const PatientForm = () => {
             <FormName>Дата:</FormName>
             <TextInput style={styles.Form} placeholder="ДД-ММ-ГГ" /> 
           </DateWrapper>
+          <DirectionWrapper>
+            <FormName>Направление:</FormName>
+            <TextInput style={styles.Form} placeholder="Психолог" /> 
+          </DirectionWrapper>
+          <DoctorWrapper>
+            <FormName FormName>Доктор:</FormName>
+            <TextInput style={styles.Form} placeholder="Иванов Михаил Петрович" /> 
+          </DoctorWrapper>
         </PatientBodyWrapper>
       </ContentWrapper>
     </PatientWrapper>
@@ -44,7 +52,7 @@ const PatientWrapper = styled.View`
 
 const ContentWrapper = styled.View`
   width: 100%;
-  height: 320px; 
+  height: 250px; 
   background-color: rgb(74, 231, 216);
   border-radius: 40px;
   margin-top: 50px;
@@ -62,8 +70,7 @@ const PatientHeaderText = styled.Text`
 const PatientBodyWrapper = styled.View`
   position: relative;
   width: 100%;
-  height: 230px;
-  /* background-color: #E83548; // temporary bg color */
+  height: 160px;
 `;
 
 const FormName = styled.Text`
@@ -81,6 +88,28 @@ const DateWrapper = styled.View`
   height: 150px;
   flex-direction: column;
   justify-content: flex-start;
+`;
+
+const DirectionWrapper = styled.View`
+  position: absolute;
+  right: 20px;
+  top: 0;
+  width: 180px;
+  height: 150px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 30px;
+`;
+
+const DoctorWrapper = styled.View`
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  width: 90%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 export default PatientForm;

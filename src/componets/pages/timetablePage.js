@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
 
@@ -7,19 +8,26 @@ import PatientForm from '../patientForm';
 
 const TimetablePage = () => {
   
-  const [isPatientFormActive, turnPatientForm] = useState(true); // temporary value = true
+  const [isPatientFormActive, turnPatientForm] = useState(false);
 
   return (
     <Wrapper>
-        <Portal>
-          <PatientForm /> 
-        </Portal>
+        {
+          isPatientFormActive &&
+
+          <Portal>
+            <PatientForm /> 
+          </Portal>
+        }
+        
       <ContentWrapper>
         <PatientCard />
-        <PatientCard isLast/>
-        <AddingBtn>
-          <AddingBtnValue>Записаться к врачу</AddingBtnValue>
-        </AddingBtn>
+        <PatientCard isLast />
+        <TouchableOpacity onPress={() => turnPatientForm(true)}>
+          <AddingBtn>
+            <AddingBtnValue>Записаться к врачу</AddingBtnValue>
+          </AddingBtn>
+        </TouchableOpacity>
       </ContentWrapper>
     </Wrapper>
   )
