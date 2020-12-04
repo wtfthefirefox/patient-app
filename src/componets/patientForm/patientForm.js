@@ -1,39 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 
 import icons from '../../../assets/svg/icons';
 
+import getTimeToAppointment from '../../utils/getTimeToAppointment';
+
 const PatientForm = ({closeWindow}) => {
-  return (
-    <PatientWrapper>
-      <ContentWrapper>
-        <TouchableOpacity style={{position: "absolute", right: 5, top: -5}} onPress={() => closeWindow(false)} > 
-          <icons.Cross width={30} height={30} />
+  const [textWindow, changeTextWindow] = useState('');
+  if (textWindow == '') {
+    return (
+      <PatientWrapper>
+        <ContentWrapper>
+          <TouchableOpacity style={{position: "absolute", right: 5, top: -5}} onPress={() => closeWindow(false)} > 
+            <icons.Cross width={30} height={30} />
+          </TouchableOpacity>
+          <PatientHeaderText>Пожалуйста, выберите дату приёма и врача:</PatientHeaderText>
+          <PatientBodyWrapper>
+            <DateWrapper>
+              <FormName>Дата:</FormName>
+              <TextInput style={styles.Form} placeholder="ДД-ММ-ГГ" /> 
+            </DateWrapper>
+            <DirectionWrapper>
+              <FormName>Направление:</FormName>
+              <TextInput style={styles.Form} placeholder="Психолог" /> 
+            </DirectionWrapper>
+            <DoctorWrapper>
+              <FormName FormName>Доктор:</FormName>
+              <TextInput style={styles.Form} placeholder="Иванов Михаил Петрович" /> 
+            </DoctorWrapper>
+          </PatientBodyWrapper>
+        </ContentWrapper>
+        <TouchableOpacity onPress={async () => {
+          let res = await getTimeToAppointment();
+
+          changeTextWindow(res.ans);
+        }} >
+          <SubmitBtn>
+            <SubmitBtnText>Записаться</SubmitBtnText>
+          </SubmitBtn>
         </TouchableOpacity>
-        <PatientHeaderText>Пожалуйста, выберите дату приёма и врача:</PatientHeaderText>
-        <PatientBodyWrapper>
-          <DateWrapper>
-            <FormName>Дата:</FormName>
-            <TextInput style={styles.Form} placeholder="ДД-ММ-ГГ" /> 
-          </DateWrapper>
-          <DirectionWrapper>
-            <FormName>Направление:</FormName>
-            <TextInput style={styles.Form} placeholder="Психолог" /> 
-          </DirectionWrapper>
-          <DoctorWrapper>
-            <FormName FormName>Доктор:</FormName>
-            <TextInput style={styles.Form} placeholder="Иванов Михаил Петрович" /> 
-          </DoctorWrapper>
-        </PatientBodyWrapper>
-      </ContentWrapper>
-      <TouchableOpacity onPress={() => closeWindow(false)} >
-        <SubmitBtn>
-          <SubmitBtnText>Записаться</SubmitBtnText>
-        </SubmitBtn>
-      </TouchableOpacity>
-    </PatientWrapper>
-  )
+      </PatientWrapper>
+    )
+  } else {
+    return(
+      <PatientWrapper>
+        <ContentWrapper>
+          <TouchableOpacity style={{position: "absolute", right: 5, top: -5}} onPress={() => closeWindow(false)} > 
+            <icons.Cross width={30} height={30} />
+          </TouchableOpacity>
+          <PatientHeaderText>{`Ваш приём будет длиться: \n ${textWindow} минут`}</PatientHeaderText>
+        </ContentWrapper>
+      </PatientWrapper>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

@@ -12,6 +12,7 @@ const AppPage = () => {
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} /> 
         <Route path="/timetable" component={TimetablePage} />
+        <Route path="/doctorsTimetable" component={DoctorsPage} />
       </Switch>
     </Wrapper>
   )

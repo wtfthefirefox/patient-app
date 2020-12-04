@@ -1,25 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-native';
+import React, { useState } from 'react';
+import { TouchableOpacity } from 'react-native'; 
+import { Link, withRouter } from 'react-router-native';
 import styled from 'styled-components';
 
-import Form from '../formInput';
+import FormInput from '../formInput';
 
 import icons from '../../../assets/svg/icons';
 
-const LoginPage = () => {
+import checkAuthorization from '../../utils/checkAuthorization';
+
+const LoginPage = ({history}) => {
+  const [emailValue, ChangeEmailValue] = useState('');
+  const [passwordValue, ChangePasswordValue] = useState('');
+
   return (
     <Wrapper>
       <Link to="/" style={{position: "absolute", left: 0, top: 15}} >
         <icons.BtnReturnLeft width={30} height={30} />
       </Link>
       <ContentWrapper>
-        <Form formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" />
-        <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="100px" isPasswrod={true} />
-        <Link to="/timetable" style={{width: "60%"}}>
+        <FormInput formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" textChangerFunc={ChangeEmailValue} />
+        <FormInput formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="100px" isPasswrod={true} textChangerFunc={ChangePasswordValue} />
+        <TouchableOpacity onPress={async ()  => {
+          let res = await checkAuthorization(emailValue, passwordValue);
+
+          if (res.ans === "true") {
+            history.push('/timetable'); 
+          } else {
+            history.push('/');
+          }
+        }} style={{width: "60%"}} >
           <BtnWrapper>
             <BtnValue>Войти</BtnValue>
           </BtnWrapper>
-        </Link>
+        </TouchableOpacity>
       </ContentWrapper>
     </Wrapper>
   )
@@ -55,4 +69,4 @@ const BtnValue = styled.Text`
   font-size: 28px;
 `;
 
-export default LoginPage;
+export default withRouter(LoginPage);

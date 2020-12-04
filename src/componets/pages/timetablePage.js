@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Link } from 'react-router-native';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
 
@@ -28,7 +27,7 @@ const TimetablePage = () => {
           <PatientForm closeWindow={turnPatientForm} /> 
         </Portal>
       }
-
+   
       {
         isLeave &&
 

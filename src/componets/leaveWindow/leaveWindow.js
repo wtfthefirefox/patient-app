@@ -1,9 +1,9 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native'; 
-import { Link } from 'react-router-native';
+import { Link } from 'react-router-native'
 import styled from 'styled-components';
 
-const LeaveWindow = ({turnLeave}) => {
+const LeaveWindow = ({turnLeave}) => { 
   return (
     <Wrapper>
       <ContentWrapper>
