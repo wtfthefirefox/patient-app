@@ -8,15 +8,15 @@ import AppPage from './src/componets/appPage';
 
 const App = () => {
   return (
-    <Portal.Host>
-      <NativeRouter>
+    <NativeRouter>
+      <Portal.Host>
         <SafeAreaView style={{backgroundColor: "#c4c4c4"}}>
           <View style={{backgroundColor: '#ffffff'}}>
             <AppPage />
           </View>
         </SafeAreaView>
-      </NativeRouter>
-    </Portal.Host>
+      </Portal.Host>
+    </NativeRouter>
   )
 }
 

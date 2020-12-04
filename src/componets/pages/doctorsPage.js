@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TouchableOpacity } from 'react-native'; 
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
 
@@ -9,17 +10,21 @@ import icons from '../../../assets/svg/icons';
 
 const DoctorsPage = () => {
 
-  const [isDoctorLeave, turnDoctorLeave] = useState(true);
+  const [isLeave, turnLeave] = useState(false);
 
   return (
     <Wrapper>
-      { isDoctorLeave && 
+      <TouchableOpacity style={{position: "absolute", right: 0, top: 15}} onPress={() => turnLeave(true)}>
+        <icons.BtnReturnRight width={30} height={30} />
+      </TouchableOpacity>
+
+      { isLeave &&
 
         <Portal>
-          <LeaveWindow />
+          <LeaveWindow turnLeave={turnLeave} />
         </Portal>
       }
-      <icons.BtnReturn />
+      
       <ContentWrapper>
         <DoctorCard />
         <DoctorCard isLast/>

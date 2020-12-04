@@ -11,7 +11,7 @@ const AppPage = () => {
         <Route exact path="/" component={FirstPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} /> 
-        <Route path="/timetable" component={DoctorsPage} />
+        <Route path="/timetable" component={TimetablePage} />
       </Switch>
     </Wrapper>
   )

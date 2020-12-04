@@ -4,9 +4,14 @@ import styled from 'styled-components';
 
 import Form from '../formInput';
 
+import icons from '../../../assets/svg/icons';
+
 const RegisterPage = () => {
   return (
     <Wrapper>
+      <Link to="/" style={{position: "absolute", left: 0, top: 15}} >
+        <icons.BtnReturnLeft width={30} height={30} />
+      </Link>
       <ContentWrapper>
         <Form formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" />
         <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="30px" isPasswrod={true} />
@@ -22,6 +27,7 @@ const RegisterPage = () => {
 }
 
 const Wrapper = styled.View`
+  position: relative;
   width: 100%;  
   height: 1000px;
 `;

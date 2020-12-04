@@ -1,11 +1,16 @@
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 
-const PatientForm = () => {
+import icons from '../../../assets/svg/icons';
+
+const PatientForm = ({closeWindow}) => {
   return (
     <PatientWrapper>
       <ContentWrapper>
+        <TouchableOpacity style={{position: "absolute", right: 5, top: -5}} onPress={() => closeWindow(false)} > 
+          <icons.Cross width={30} height={30} />
+        </TouchableOpacity>
         <PatientHeaderText>Пожалуйста, выберите дату приёма и врача:</PatientHeaderText>
         <PatientBodyWrapper>
           <DateWrapper>
@@ -22,6 +27,11 @@ const PatientForm = () => {
           </DoctorWrapper>
         </PatientBodyWrapper>
       </ContentWrapper>
+      <TouchableOpacity onPress={() => closeWindow(false)} >
+        <SubmitBtn>
+          <SubmitBtnText>Записаться</SubmitBtnText>
+        </SubmitBtn>
+      </TouchableOpacity>
     </PatientWrapper>
   )
 }
@@ -53,10 +63,11 @@ const PatientWrapper = styled.View`
 const ContentWrapper = styled.View`
   width: 100%;
   height: 250px; 
-  background-color: rgb(74, 231, 216);
+  background-color: #A0BFFA;
   border-radius: 40px;
   margin-top: 50px;
   padding-top: 15px;
+  margin-bottom: 20px;
 `;
 
 const PatientHeaderText = styled.Text`
@@ -110,6 +121,22 @@ const DoctorWrapper = styled.View`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+`;
+
+const SubmitBtn = styled.View`
+  background-color: #41CE58;
+  width: 150px;
+  height: 60px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+`;
+
+const SubmitBtnText = styled.Text`
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 24px;
 `;
 
 export default PatientForm;

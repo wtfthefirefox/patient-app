@@ -1,24 +1,41 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { Link } from 'react-router-native';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
 
 import PatientCard from '../patientCard';
 import PatientForm from '../patientForm';
+import LeaveWindow from '../leaveWindow';
+
+import icons from '../../../assets/svg/icons';
 
 const TimetablePage = () => {
   
   const [isPatientFormActive, turnPatientForm] = useState(false);
+  const [isLeave, turnLeave] = useState(false);
 
   return (
     <Wrapper>
-        {
-          isPatientFormActive &&
+      <TouchableOpacity style={{position: "absolute", right: 0, top: 15}} onPress={() => turnLeave(true)}>
+        <icons.BtnReturnRight width={30} height={30} />
+      </TouchableOpacity>
 
-          <Portal>
-            <PatientForm /> 
-          </Portal>
-        }
+      {
+        isPatientFormActive &&
+
+        <Portal>
+          <PatientForm closeWindow={turnPatientForm} /> 
+        </Portal>
+      }
+
+      {
+        isLeave &&
+
+        <Portal>
+          <LeaveWindow turnLeave={turnLeave} />
+        </Portal>
+      }
         
       <ContentWrapper>
         <PatientCard />
@@ -34,6 +51,7 @@ const TimetablePage = () => {
 }
 
 const Wrapper = styled.View`
+  position: relative;
   width: 100%;  
   height: 1000px;
 `;

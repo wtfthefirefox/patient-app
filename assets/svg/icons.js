@@ -1,5 +1,9 @@
-import BtnReturn from './return.svg';
+import BtnReturnRight from './btnReturnRight.svg';
+import BtnReturnLeft from './btnReturnLeft.svg';
+import Cross from './cross.svg';
 
 export default {
-  "BtnReturn": BtnReturn
+  "BtnReturnRight": BtnReturnRight,
+  "BtnReturnLeft": BtnReturnLeft,
+  "Cross": Cross
 }
