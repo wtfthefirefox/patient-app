@@ -16,7 +16,7 @@ const TimetablePage = () => {
 
   return (
     <Wrapper>
-      <TouchableOpacity style={{position: "absolute", right: 0, top: 15}} onPress={() => turnLeave(true)}>
+      <TouchableOpacity style={{position: "absolute", right: 0, top: 45}} onPress={() => turnLeave(true)}>
         <icons.BtnReturnRight width={30} height={30} />
       </TouchableOpacity>
 
@@ -39,7 +39,7 @@ const TimetablePage = () => {
       <ContentWrapper>
         <PatientCard />
         <PatientCard isLast />
-        <TouchableOpacity onPress={() => turnPatientForm(true)}>
+        <TouchableOpacity onPress={() => turnPatientForm(true)} style={{width: "75%"}}>
           <AddingBtn>
             <AddingBtnValue>Записаться к врачу</AddingBtnValue>
           </AddingBtn>
@@ -57,14 +57,14 @@ const Wrapper = styled.View`
 
 const ContentWrapper = styled.View`
   width: 100%;
-  margin-top: 50px;
+  margin-top: 90px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 `;
 
 const AddingBtn = styled.View`
-  width: 75%;
+  width: 100%;
   height: 60px;
   background-color: #A0BFFA;  
   flex-direction: row;

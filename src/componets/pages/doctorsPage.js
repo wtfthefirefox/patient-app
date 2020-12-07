@@ -14,7 +14,7 @@ const DoctorsPage = () => {
 
   return (
     <Wrapper>
-      <TouchableOpacity style={{position: "absolute", right: 0, top: 15}} onPress={() => turnLeave(true)}>
+      <TouchableOpacity style={{position: "absolute", right: 0, top: 45}} onPress={() => turnLeave(true)}>
         <icons.BtnReturnRight width={30} height={30} />
       </TouchableOpacity>
 
@@ -41,7 +41,7 @@ const Wrapper = styled.View`
 
 const ContentWrapper = styled.View`
   width: 100%;
-  margin-top: 50px;
+  margin-top: 90px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;

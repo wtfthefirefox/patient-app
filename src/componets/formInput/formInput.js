@@ -6,7 +6,7 @@ const FormInput = ({formType, placeholderValue, formName, marginBottomValue, isP
   return (
     <FormWrapper marginBottomVal={marginBottomValue}>
       <FormName>{formName}</FormName>
-      <TextInput style={styles.Form} keyboardType={formType} placeholder={placeholderValue} secureTextEntry={isPassword ? true : false}  onChangeText={(text) => textChangerFunc(text)} /> 
+      <TextInput style={styles.Form} keyboardType={formType} placeholder={placeholderValue} secureTextEntry={isPassword}  onChangeText={(text) => textChangerFunc(text)} /> 
     </FormWrapper>
   )
 }

@@ -3,8 +3,6 @@ const getTimeToAppointment = async () => {
     name: "fg"
   };
 
-  console.log(data);
-
   let responce = await fetch("http://95.37.24.118:5000/time", {
     method: "POST",
     headers: {

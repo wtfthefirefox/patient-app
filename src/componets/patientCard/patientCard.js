@@ -39,7 +39,7 @@ const CardWrapper = styled.View`
 const DateWrapper = styled.View`
   position: absolute;
   left: 20px;
-  top: 15px;
+  top: 10px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -63,7 +63,7 @@ const ItemValue = styled.Text`
 const RoomWrapper = styled.View`
   position: absolute;
   left: 20px;
-  bottom: 15px;
+  bottom: 10px;
   flex-direction: row;
   justify-content: flex-start;
 `;
@@ -71,7 +71,7 @@ const RoomWrapper = styled.View`
 const DoctorWrapper = styled.View`
   position: absolute;
   right: 20px;
-  top: 15px;
+  top: 10px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -93,9 +93,9 @@ const DoctorItem = styled.Text`
 const CancelBtnWrapper = styled.View`
   position: absolute;
   right: 20px;
-  bottom: 15px;
-  width: 140px;
-  height: 40px;
+  bottom: 10px;
+  width: 150px;
+  height: 50px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -105,8 +105,8 @@ const CancelBtnWrapper = styled.View`
 
 const CancelBtnText = styled.Text`
   color: #ffffff;
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 20px;
+  line-height: 22px;
 `;
 
 export default PatientCard;

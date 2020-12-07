@@ -1,26 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router-native';
+import React, { useState } from 'react';
+import { TouchableOpacity } from 'react-native'; 
+import { Link, withRouter } from 'react-router-native';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Form from '../formInput';
 
 import icons from '../../../assets/svg/icons';
 
-const RegisterPage = () => {
+import getRegisteration from '../../utils/getRegisteration';
+import { addLogin } from '../../redux/actionsCreator';
+
+const RegisterPage = ({ history, addLogin }) => {
+  
+  const [emailValue, ChangeEmailValue] = useState('');
+  const [passwordValue, ChangePasswordValue] = useState('');
+  const [passwordRepeatedValue, changePasswordRepeatedValue] = useState('');
+
   return (
     <Wrapper>
-      <Link to="/" style={{position: "absolute", left: 0, top: 15}} >
+      <Link to="/" style={{position: "absolute", left: 0, top: 45}} >
         <icons.BtnReturnLeft width={30} height={30} />
       </Link>
       <ContentWrapper>
-        <Form formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" />
-        <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="30px" isPasswrod={true} />
-        <Form formType="default" placeholderValue="********" formName="Повторите пароль" marginBottomValue="100px" isPasswrod={true} />
-        <Link to="/timetable" style={{width: "80%"}}>
-          <BtnWrapper>
+        <Form formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" textChangerFunc={ChangeEmailValue} />
+        <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="30px" isPassword={true} textChangerFunc={ChangePasswordValue} />
+        <Form formType="default" placeholderValue="********" formName="Повторите пароль" marginBottomValue="100px" isPassword={true} textChangerFunc={changePasswordRepeatedValue} />
+        <TouchableOpacity style={{width: "80%"}} onPress={ async () => {
+          let res = await getRegisteration(emailValue, passwordValue);
+          
+          if (res) {
+            history.push('/timetable');
+            addLogin(emailValue);
+          }
+        }}>
+          <BtnWrapper bgColor={emailValue != '' && passwordValue != '' && passwordRepeatedValue != '' && passwordValue === passwordRepeatedValue ? "rgba(160, 192, 250, 1)" : "rgba(160, 192, 250, 0.5)"}>
             <BtnValue>Зарегистрироваться</BtnValue>
           </BtnWrapper>
-        </Link>
+        </TouchableOpacity>
       </ContentWrapper>
     </Wrapper>
   )
@@ -34,7 +51,7 @@ const Wrapper = styled.View`
 
 const ContentWrapper = styled.View`
   width: 100%;
-  margin-top: 50px;
+  margin-top: 90px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -43,7 +60,7 @@ const ContentWrapper = styled.View`
 const BtnWrapper = styled.View`
   width: 100%;
   height: 60px;
-  background-color: #A0BFFA;  
+  background-color: ${props => props.bgColor};  
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -56,4 +73,14 @@ const BtnValue = styled.Text`
   font-size: 28px;
 `;
 
-export default RegisterPage;
+const mapStateToProps = ({login}) => {
+  return {
+    login
+  }
+}
+
+const mapDispatchToProps = {
+  addLogin
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RegisterPage));
