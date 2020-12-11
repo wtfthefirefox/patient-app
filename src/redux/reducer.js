@@ -1,5 +1,5 @@
 const initialState = {
-  login: 'djiawjdoawjio'
+  login: ''
 }
 
 const reducer = (state = initialState, action) => {

@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Route, Switch } from 'react-router-native';
 
-import { FirstPage, LoginPage, RegisterPage, TimetablePage, DoctorsPage } from '../pages';
+import { FirstPage, LoginPage, TimetablePage, DoctorsPage } from '../pages';
+import RegisterNavigatorPage from '../RegisterNavigation';
 
 const AppPage = () => {
   return (
@@ -10,7 +11,7 @@ const AppPage = () => {
       <Switch>
         <Route exact path="/" component={FirstPage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} /> 
+        <Route path="/registerNavigate" component={RegisterNavigatorPage} /> 
         <Route path="/timetable" component={TimetablePage} />
         <Route path="/doctorsTimetable" component={DoctorsPage} />
       </Switch>

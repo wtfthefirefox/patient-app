@@ -12,7 +12,8 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "0.63",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

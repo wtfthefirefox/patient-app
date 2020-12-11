@@ -6,7 +6,7 @@ const FirstPage = () => {
   return (
     <PageWrapper>
       <ContentWrapper>
-        <Link to="/register">
+        <Link to="/registerNavigate">
           <BtnWrapper>
             <BtnValue>Зарегистрироваться</BtnValue>
           </BtnWrapper>

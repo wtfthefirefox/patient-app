@@ -9,14 +9,13 @@ import Form from '../formInput';
 import icons from '../../../assets/svg/icons';
 
 import getRegisteration from '../../utils/getRegisteration';
-import { addLogin } from '../../redux/actionsCreator';
 
-const RegisterPage = ({ history, addLogin }) => {
+const RegisterSecondStepPage = ({ history, getRegisteration, dataFromFirstStep }) => {
   
   const [emailValue, ChangeEmailValue] = useState('');
   const [passwordValue, ChangePasswordValue] = useState('');
   const [passwordRepeatedValue, changePasswordRepeatedValue] = useState('');
-
+  
   return (
     <Wrapper>
       <Link to="/" style={{position: "absolute", left: 0, top: 45}} >
@@ -27,11 +26,16 @@ const RegisterPage = ({ history, addLogin }) => {
         <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="30px" isPassword={true} textChangerFunc={ChangePasswordValue} />
         <Form formType="default" placeholderValue="********" formName="Повторите пароль" marginBottomValue="100px" isPassword={true} textChangerFunc={changePasswordRepeatedValue} />
         <TouchableOpacity style={{width: "80%"}} onPress={ async () => {
-          let res = await getRegisteration(emailValue, passwordValue);
+          let data = {
+            ...dataFromFirstStep,
+            login: emailValue,
+            password: passwordValue
+          };
+
+          let res = await getRegisteration(data);
           
           if (res) {
             history.push('/timetable');
-            addLogin(emailValue);
           }
         }}>
           <BtnWrapper bgColor={emailValue != '' && passwordValue != '' && passwordRepeatedValue != '' && passwordValue === passwordRepeatedValue ? "rgba(160, 192, 250, 1)" : "rgba(160, 192, 250, 0.5)"}>
@@ -73,14 +77,8 @@ const BtnValue = styled.Text`
   font-size: 28px;
 `;
 
-const mapStateToProps = ({login}) => {
-  return {
-    login
-  }
-}
-
 const mapDispatchToProps = {
-  addLogin
+  getRegisteration
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RegisterPage));
+export default connect(null, mapDispatchToProps)(withRouter(RegisterSecondStepPage));

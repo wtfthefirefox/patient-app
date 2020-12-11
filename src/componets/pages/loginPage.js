@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native'; 
 import { Link, withRouter } from 'react-router-native';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import FormInput from '../formInput';
@@ -9,7 +10,7 @@ import icons from '../../../assets/svg/icons';
 
 import checkAuthorization from '../../utils/checkAuthorization';
 
-const LoginPage = ({ history }) => {
+const LoginPage = ({ history, checkAuthorization }) => {
   const [emailValue, ChangeEmailValue] = useState('');
   const [passwordValue, ChangePasswordValue] = useState('');
 
@@ -77,4 +78,8 @@ const BtnValue = styled.Text`
   font-size: 28px;
 `;
 
-export default withRouter(LoginPage);
+const mapDispatchToProps = {
+  checkAuthorization
+}
+
+export default connect(null, mapDispatchToProps)(withRouter(LoginPage));

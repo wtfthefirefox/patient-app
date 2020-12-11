@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
 
@@ -9,7 +10,7 @@ import LeaveWindow from '../leaveWindow';
 
 import icons from '../../../assets/svg/icons';
 
-const TimetablePage = () => {
+const TimetablePage = ({login}) => {
   
   const [isPatientFormActive, turnPatientForm] = useState(false);
   const [isLeave, turnLeave] = useState(false);
@@ -37,6 +38,7 @@ const TimetablePage = () => {
       }
         
       <ContentWrapper>
+        <HelloText>{`Привет ${login}`}</HelloText>
         <PatientCard />
         <PatientCard isLast />
         <TouchableOpacity onPress={() => turnPatientForm(true)} style={{width: "75%"}}>
@@ -63,6 +65,12 @@ const ContentWrapper = styled.View`
   align-items: center;
 `;
 
+const HelloText = styled.Text`
+  font-size: 30px;
+  line-height: 30px;
+  color: #2A52BE;
+`;
+
 const AddingBtn = styled.View`
   width: 100%;
   height: 60px;
@@ -79,4 +87,10 @@ const AddingBtnValue = styled.Text`
   font-size: 28px;
 `;
 
-export default TimetablePage;
+const mapStateToProps = ({login}) => {
+  return {
+    login
+  }
+}
+
+export default connect(mapStateToProps)(TimetablePage);

@@ -1,10 +1,8 @@
-const getRegisteration = async (login, pass) => {
-  let data = {
-    login,
-    password: pass
-  };
+import { addLogin } from '../redux/actionsCreator';
 
-  let res = await fetch("http://95.37.24.118:5000/reg", {
+const getRegisteration = (data) => async (dispatch) => {
+  
+  let responce = await fetch("http://95.37.24.118:5000/reg", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
@@ -12,7 +10,13 @@ const getRegisteration = async (login, pass) => {
     body: JSON.stringify(data)
   });
 
-  return await res.json()
+  let res = await responce.json();
+
+  if (res) {
+    dispatch(addLogin(data.login));
+  }
+
+  return res
 }
 
 export default getRegisteration;

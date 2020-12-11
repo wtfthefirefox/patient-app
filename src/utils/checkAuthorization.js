@@ -1,4 +1,6 @@
-const checkAuthorization = async (emailValue, passValue) => {
+import { addLogin } from '../redux/actionsCreator';
+
+const checkAuthorization = (emailValue, passValue) => async (dispatch) => {
 
   let objWidthData = {
     login: emailValue,
@@ -13,7 +15,13 @@ const checkAuthorization = async (emailValue, passValue) => {
     body: JSON.stringify(objWidthData)
   });
 
-  return await responce.json();
+  let res = await responce.json()
+
+  if (res) {
+    dispatch(addLogin(emailValue));
+  }
+
+  return await res
 }
 
 export default checkAuthorization;
