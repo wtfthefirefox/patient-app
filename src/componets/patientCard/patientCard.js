@@ -1,23 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PatientCard = ({isLast}) => {
+const PatientCard = ({ isLast, time, cabinet, data}) => {
   return (
     <CardWrapper last={isLast}>
       <DateWrapper>
         <ItemTitle marginRightValue="0">Дата приёма:</ItemTitle>
-        <ItemValue>19:00 12.12.2021</ItemValue>
+        <ItemValue>{time}</ItemValue>
       </DateWrapper>
       <RoomWrapper>
         <ItemTitle marginRightValue="5px">Кабинет:</ItemTitle>
-        <ItemValue>341</ItemValue>
+        <ItemValue>{cabinet}</ItemValue>
       </RoomWrapper>
       <DoctorWrapper>
         <ItemTitle marginRightValue="5px">Врач:</ItemTitle>
         <DoctorList>
-          <DoctorItem>Иванов</DoctorItem>
-          <DoctorItem>Михаил</DoctorItem>
-          <DoctorItem>Петрович</DoctorItem>
+          <DoctorItem>{data.split(' ')[0]}</DoctorItem>
+          <DoctorItem>{data.split(' ')[1]}</DoctorItem>
+          <DoctorItem>{data.split(' ')[2]}</DoctorItem>
         </DoctorList>
       </DoctorWrapper>
       <CancelBtnWrapper>

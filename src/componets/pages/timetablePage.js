@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
@@ -10,12 +10,33 @@ import LeaveWindow from '../leaveWindow';
 
 import icons from '../../../assets/svg/icons';
 
-const TimetablePage = ({login}) => {
+import getTimetableForPatient from '../../utils/getTimetableForPatient';
+
+const TimetablePage = ({ login }) => {
   
   const [isPatientFormActive, turnPatientForm] = useState(false);
   const [isLeave, turnLeave] = useState(false);
+  const [loading, turnLoading] = useState(false);
+  const [items, changeItems] = useState('');
 
-  return (
+  useEffect( () => {
+    (async () => {
+      let res = await getTimetableForPatient(login);
+
+      changeItems(res.ans);
+      turnLoading(false);
+    })()
+  }, []);
+
+  if (loading) {
+    return (
+      <Wrapper>
+        <ActivityIndicator size="large" color="#2A52BE" style={{marginTop: 100}} />
+      </Wrapper>
+    )
+  }
+
+  return (  
     <Wrapper>
       <TouchableOpacity style={{position: "absolute", right: 0, top: 45}} onPress={() => turnLeave(true)}>
         <icons.BtnReturnRight width={30} height={30} />
@@ -38,9 +59,13 @@ const TimetablePage = ({login}) => {
       }
         
       <ContentWrapper>
-        <HelloText>{`Привет ${login}`}</HelloText>
-        <PatientCard />
-        <PatientCard isLast />
+
+        {
+          items.map(item => {
+            return <PatientCard key={item.id} time={item.timestart} cabinet={item.id} data={item.data} last />
+          })
+        }
+
         <TouchableOpacity onPress={() => turnPatientForm(true)} style={{width: "75%"}}>
           <AddingBtn>
             <AddingBtnValue>Записаться к врачу</AddingBtnValue>
@@ -63,12 +88,6 @@ const ContentWrapper = styled.View`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-`;
-
-const HelloText = styled.Text`
-  font-size: 30px;
-  line-height: 30px;
-  color: #2A52BE;
 `;
 
 const AddingBtn = styled.View`
