@@ -4,7 +4,7 @@ const getTimetableForPatient = async (login) => {
     email: login
   };
 
-  let responce = await fetch("http://95.37.24.118:5000/get_appointment", {
+  let responce = await fetch("http://95.37.6.22:5000/get_appointment", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

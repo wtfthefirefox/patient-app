@@ -1,27 +1,60 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 
-const DoctorCard = ({isLast}) => {
+import cancelAppointment from '../../utils/cancelAppointment';
+import getAppoitmentsForDoctor from '../../utils/getAppoitmentsForDoctor';
+import increaseTime from '../../utils/increaseTime';
+
+const DoctorCard = ({ date, name, idAppointment, isLast, changerItems, login, changerLoading }) => {
   return (
     <CardWrapper last={isLast}>
       <DateWrapper>
         <ItemTitle marginRightValue="0">Дата приёма:</ItemTitle>
-        <ItemValue>19:00 12.12.2021</ItemValue>
+        <ItemValue>{date}</ItemValue>
       </DateWrapper>
-      <BtnWrap bgColor={"#41CE58"} horizontalValue={"left: 20px;"}>
-        <BtnValue>Увеличить время приёма</BtnValue>
-      </BtnWrap>
-      <BtnWrap bgColor={"#E83548"} horizontalValue={"right: 20px;"}>
-        <BtnValue>Окончить приём</BtnValue>
-      </BtnWrap>
-      <DoctorWrapper>
-        <ItemTitle marginRightValue="5px">Врач:</ItemTitle>
-        <DoctorList>
-          <DoctorItem>Зубенко</DoctorItem>
-          <DoctorItem>Иван</DoctorItem>
-          <DoctorItem>Петрович</DoctorItem>
-        </DoctorList>
-      </DoctorWrapper>
+      <TouchableOpacity style={{position: "absolute", bottom: 10, left: 20}} onPress={() => {
+        (async () => {
+          let res = await increaseTime(idAppointment);
+
+          if (res) {
+            changerLoading(true);
+
+            let query = await getAppoitmentsForDoctor(login);
+
+            changerLoading(false);
+            changerItems(query.ans);
+          }
+        })()
+        }} >
+        <BtnWrap bgColor={"#41CE58"} >
+          <BtnValue>Увеличить время приёма</BtnValue>
+        </BtnWrap>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={ async () => {
+        let res = await cancelAppointment(idAppointment);
+
+        if (res) {
+          changerLoading(true);
+
+          let query = await getAppoitmentsForDoctor(login);
+
+          changerLoading(false);
+          changerItems(query.ans);
+        }
+      }} style={{position: "absolute", bottom: 10, right: 20}}>
+        <BtnWrap bgColor={"#E83548"} >
+          <BtnValue>Окончить приём</BtnValue>
+        </BtnWrap>
+      </TouchableOpacity>
+      <PatientWrapper>
+        <ItemTitle marginRightValue="5px">Пациент:</ItemTitle>
+        <PatientList>
+          <PatientItem>{name.split(' ')[0]}</PatientItem>
+          <PatientItem>{name.split(' ')[1]}</PatientItem>
+          <PatientItem>{name.split(' ')[2]}</PatientItem>
+        </PatientList>
+      </PatientWrapper>
     </CardWrapper>
   )
 }
@@ -59,7 +92,7 @@ const ItemValue = styled.Text`
   max-width: 100px;
 `;
 
-const DoctorWrapper = styled.View`
+const PatientWrapper = styled.View`
   position: absolute;
   right: 20px;
   top: 10px;
@@ -68,23 +101,20 @@ const DoctorWrapper = styled.View`
   align-items: center;
 `;
 
-const DoctorList = styled.View`
+const PatientList = styled.View`
   min-width: 120px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 `;
 
-const DoctorItem = styled.Text`
+const PatientItem = styled.Text`
   color: #ffffff;
   font-size: 18px;
   line-height: 20px;
 `;
 
 const BtnWrap = styled.View`
-  position: absolute;
-  ${props => props.horizontalValue};
-  bottom: 10px;
   width: 150px;
   height: 50px;
   flex-direction: row;

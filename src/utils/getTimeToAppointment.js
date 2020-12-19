@@ -1,9 +1,13 @@
-const getTimeToAppointment = async () => {
+const getTimeToAppointment = async (login, date, time, direction, doctor) => {
   const data = {
-    name: "fg"
+    direction,
+    login,
+    time,
+    data: date,
+    doctor
   };
 
-  let responce = await fetch("http://95.37.24.118:5000/time", {
+  let responce = await fetch("http://95.37.6.22:5000/create_appointment", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
@@ -11,7 +15,7 @@ const getTimeToAppointment = async () => {
     body: JSON.stringify(data)
   });
 
-  return await responce.json()
+  return await responce.json();
 }
 
 export default getTimeToAppointment;

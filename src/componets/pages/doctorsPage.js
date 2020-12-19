@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native'; 
+import React, { useState, useEffect } from 'react';
+import { TouchableOpacity, ActivityIndicator } from 'react-native'; 
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
 
@@ -8,9 +9,32 @@ import LeaveWindow from '../leaveWindow';
 
 import icons from '../../../assets/svg/icons';
 
-const DoctorsPage = () => {
+import getAppoitmentsForDoctor from '../../utils/getAppoitmentsForDoctor';
+
+const DoctorsPage = ({ login }) => {
+
+  const [isLoading, turnLoading] = useState(true);
 
   const [isLeave, turnLeave] = useState(false);
+
+  const [items, changeItems] = useState('');
+
+  useEffect( () => {
+    (async () => {
+      let res = await getAppoitmentsForDoctor(login);
+
+      changeItems(res.ans);
+      turnLoading(false);
+    })()
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <ActivityIndicator size="large" color="#2A52BE" style={{marginTop: 100}} />
+      </Wrapper>
+    )
+  }
 
   return (
     <Wrapper>
@@ -26,8 +50,23 @@ const DoctorsPage = () => {
       }
       
       <ContentWrapper>
-        <DoctorCard />
-        <DoctorCard isLast/>
+
+        {
+          items.map((item, idx) => {
+            return (
+              <DoctorCard 
+                name={item.name} 
+                date={`${item.timestart} ${item.data}`} 
+                idAppointment={item.id}
+                isLast={idx === items.length - 1}
+                login={login}
+                changerItems={changeItems} 
+                changerLoading={turnLoading}
+              />
+            )
+          })
+        }
+
       </ContentWrapper>
     </Wrapper>
   )
@@ -47,4 +86,10 @@ const ContentWrapper = styled.View`
   align-items: center;
 `;
 
-export default DoctorsPage;
+const mapStateToProps = ({ login }) => {
+  return {
+    login
+  }
+}
+
+export default connect(mapStateToProps)(DoctorsPage);

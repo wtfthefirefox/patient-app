@@ -1,7 +1,10 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 
-const PatientCard = ({ isLast, time, cabinet, data}) => {
+import cancelAppointment from '../../utils/cancelAppointment';
+
+const PatientCard = ({ isLast, time, cabinet, doctor, appointmentId, changerLoading, changerItems }) => {
   return (
     <CardWrapper last={isLast}>
       <DateWrapper>
@@ -15,14 +18,29 @@ const PatientCard = ({ isLast, time, cabinet, data}) => {
       <DoctorWrapper>
         <ItemTitle marginRightValue="5px">Врач:</ItemTitle>
         <DoctorList>
-          <DoctorItem>{data.split(' ')[0]}</DoctorItem>
-          <DoctorItem>{data.split(' ')[1]}</DoctorItem>
-          <DoctorItem>{data.split(' ')[2]}</DoctorItem>
+          <DoctorItem>{doctor.split(' ')[0]}</DoctorItem>
+          <DoctorItem>{doctor.split(' ')[1]}</DoctorItem>
+          <DoctorItem>{doctor.split(' ')[2]}</DoctorItem>
         </DoctorList>
       </DoctorWrapper>
-      <CancelBtnWrapper>
-        <CancelBtnText>Отменить</CancelBtnText>
-      </CancelBtnWrapper>
+      <TouchableOpacity style={{position: "absolute", right: 20, bottom: 10}} onPress={() => {
+        (async () => {
+          let res = await cancelAppointment(appointmentId);
+
+          if (res) {
+            changerLoading(true);
+
+            let query = await getAppoitmentsForDoctor(login);
+
+            changerLoading(false);
+            changerItems(query.ans);
+          }
+        })()
+      }} >
+        <CancelBtnWrapper>
+          <CancelBtnText>Отменить</CancelBtnText>
+        </CancelBtnWrapper>
+      </TouchableOpacity>
     </CardWrapper>
   )
 }
@@ -91,9 +109,6 @@ const DoctorItem = styled.Text`
 `;
 
 const CancelBtnWrapper = styled.View`
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
   width: 150px;
   height: 50px;
   flex-direction: row;

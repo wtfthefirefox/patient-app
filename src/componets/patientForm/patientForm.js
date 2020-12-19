@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import icons from '../../../assets/svg/icons';
@@ -7,14 +8,50 @@ import icons from '../../../assets/svg/icons';
 import getTimeToAppointment from '../../utils/getTimeToAppointment';
 
 import TimetableWindow from '../timetableWindow';
+import PatientDirectionWindow from '../patientDirectionWindow';
+import PatientDoctorsWindow from '../patientDoctorsWindow';
 
-const PatientForm = ( {closeWindow} ) => {
+const PatientForm = ( { closeWindow, login } ) => {
 
   const [textWindow, changeTextWindow] = useState('');
+
   const [isTimeWindowActive, changeIsTimeWidndowActive] = useState(false);
+  const [isDirectionWindowActive, changeIsDirectionWindowActive] = useState(false);
+  const [isDoctorsWindowActive, changeIsDoctorsWindowActive] = useState(false);
+
+  const [dayValue, changeDayValue] = useState(1);
+  const [monthIdx, changeMonthIdx] = useState(11);
+  const [yearValue, changeYearValue] = useState(2020);
+  const [timeValue, changeTimeValue] = useState('');
+  const [directionValue, changeDirectionValue] = useState('');
+  const [doctorValue, changeDoctorValue] = useState('');
+
+  const addingZeroToDay = (num) => {
+    if (num <= 9) {
+      return '0' + num
+    } else {
+      return num
+    }
+  }
 
   if (isTimeWindowActive) {
-    return <TimetableWindow closeFunc={changeIsTimeWidndowActive} />
+    return <TimetableWindow 
+      closeFunc={changeIsTimeWidndowActive} 
+      changeTimeFunc={changeTimeValue} 
+      date={`${addingZeroToDay(dayValue)}.${addingZeroToDay(monthIdx + 1)}.${yearValue}`}
+      directionValue={directionValue}
+      />
+  } else if (isDirectionWindowActive) {
+    return <PatientDirectionWindow 
+      closeFunc={changeIsDirectionWindowActive}
+      changerFunc={changeDirectionValue}
+      date={`${addingZeroToDay(dayValue)}.${addingZeroToDay(monthIdx + 1)}.${yearValue}`} />
+  } else if (isDoctorsWindowActive) {
+    return <PatientDoctorsWindow  
+      closeFunc={changeIsDoctorsWindowActive}
+      changerFunc={changeDoctorValue}
+      directionValue={directionValue}
+      />
   } else if (textWindow == '') {
     return (
       <PatientWrapper>
@@ -24,66 +61,91 @@ const PatientForm = ( {closeWindow} ) => {
           </TouchableOpacity>
           <PatientHeaderText>Пожалуйста, выберите дату приёма и врача:</PatientHeaderText>
           <PatientBodyWrapper>
-            <DirectionWrapper>
-              <FormName>Направление:</FormName>
-              <FormWrap>
-                <FormValue>Психолог</FormValue>
-              </FormWrap> 
-            </DirectionWrapper>
             <DateWrapper>
               <DayWrap>
                 <FormName>День:</FormName>
-                <FormWrap >
-                  <FormValue>01</FormValue>
+                <FormWrap>
+                  <FormValue>{addingZeroToDay(dayValue)}</FormValue>
                   <CounterWrap>
-                    <icons.TriangleTop width={20} height={20} /> 
-                    <icons.TriangleBottom width={20} height={20} /> 
+                    <TouchableOpacity onPress={() => changeDayValue(dayValue + 1 <= 31 ? dayValue + 1 : dayValue)} >
+                      <icons.TriangleTop width={20} height={20} />
+                    </TouchableOpacity> 
+                    <TouchableOpacity onPress={() => changeDayValue(dayValue - 1 >= 1 ? dayValue - 1 : dayValue)} >
+                      <icons.TriangleBottom width={20} height={20} />
+                    </TouchableOpacity>
                   </CounterWrap>
                 </FormWrap> 
               </DayWrap>
               <MonthWrap>
                 <FormName>Месяц:</FormName>
-                <FormWrap >
-                  <FormValue>Январь</FormValue>
+                <FormWrap>
+                  <FormValue>{["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"][monthIdx]}</FormValue>
                   <CounterWrap>
-                    <icons.TriangleTop width={20} height={20} /> 
-                    <icons.TriangleBottom width={20} height={20} /> 
+                    <TouchableOpacity onPress={() => changeMonthIdx(monthIdx + 1 <= 11 ? monthIdx + 1 : 0)} >
+                      <icons.TriangleTop width={20} height={20} />
+                    </TouchableOpacity> 
+                    <TouchableOpacity onPress={() => changeMonthIdx(monthIdx - 1 >= 0 ? monthIdx - 1 : 11)} >
+                      <icons.TriangleBottom width={20} height={20} />
+                    </TouchableOpacity>
                   </CounterWrap>
                 </FormWrap> 
               </MonthWrap>
               <YearWrap>
                 <FormName>Год:</FormName>
-                <FormWrap >
-                  <FormValue>2012</FormValue>
+                <FormWrap>
+                  <FormValue>{yearValue}</FormValue>
                   <CounterWrap>
-                    <icons.TriangleTop width={20} height={20} /> 
-                    <icons.TriangleBottom width={20} height={20} /> 
+                    <TouchableOpacity onPress={() => changeYearValue(yearValue + 1)} >
+                      <icons.TriangleTop width={20} height={20} />
+                    </TouchableOpacity> 
+                    <TouchableOpacity onPress={() => changeYearValue(yearValue - 1 >= 2020 ? yearValue - 1 : yearValue)} >
+                      <icons.TriangleBottom width={20} height={20} />
+                    </TouchableOpacity>
                   </CounterWrap>
                 </FormWrap> 
               </YearWrap>
-              <TimeWrapper>
-                <FormName>Время приёма:</FormName>
-                <FormWrap >
-                  <FormValue>Выберите время</FormValue>
-                  <CounterWrap>
-                    <icons.TriangleTop width={20} height={20} /> 
-                    <icons.TriangleBottom width={20} height={20} /> 
-                  </CounterWrap>
-                </FormWrap>
-              </TimeWrapper>
             </DateWrapper>
+            <DirectionWrapper>
+              <FormName>Направление:</FormName>
+              <TouchableOpacity style={{width: "100%"}} onPress={() => {changeIsDirectionWindowActive(true)}} >
+                <FormWrap>
+                  <FormValue>{directionValue ? directionValue : "Выберите направление"}</FormValue>
+                </FormWrap>
+              </TouchableOpacity>
+            </DirectionWrapper>
+            <TimeWrapper>
+                <FormName>Время приёма:</FormName>
+                <TouchableOpacity onPress={() => {
+                  changeIsTimeWidndowActive(true);
+                }} >
+                  <FormWrap>
+                    <FormValue>{!timeValue ? 'Выберите время' : `Вы выбрали ${timeValue}`}</FormValue>
+                  </FormWrap>
+                </TouchableOpacity>
+              </TimeWrapper>
             <DoctorWrapper>
-              <FormName FormName>Доктор:</FormName>
-              <FormWrap>
-                <FormValue>Иванов Михаил Петрович</FormValue>
-              </FormWrap>  
+              <FormName>Доктор:</FormName>
+              <TouchableOpacity 
+                style={{width: "100%"}} 
+                onPress={() => {
+                  if (directionValue != "") {
+                    changeIsDoctorsWindowActive(true)
+                  }
+                }}
+              >
+                <FormWrap>
+                  <FormValue>{doctorValue ? doctorValue : 'Вы ещё не выбрали своего доктора'}</FormValue>
+                </FormWrap> 
+              </TouchableOpacity>
             </DoctorWrapper>
           </PatientBodyWrapper>
         </ContentWrapper>
         <TouchableOpacity onPress={async () => {
-          let res = await getTimeToAppointment();
+          if (timeValue) {
+            let res = await getTimeToAppointment(login, `${addingZeroToDay(dayValue)}.${addingZeroToDay(monthIdx + 1)}.${yearValue}`, timeValue, directionValue, doctorValue);
 
-          changeTextWindow(res.ans);
+            changeTextWindow(res.ans);
+          }
         }} >
           <SubmitBtn>
             <SubmitBtnText>Записаться</SubmitBtnText>
@@ -98,7 +160,7 @@ const PatientForm = ( {closeWindow} ) => {
           <TouchableOpacity style={{position: "absolute", right: 5, top: -5}} onPress={() => closeWindow(false)} > 
             <icons.Cross width={30} height={30} />
           </TouchableOpacity>
-          <PatientHeaderText>{`Ваш приём будет длиться: \n ${textWindow} минут`}</PatientHeaderText>
+          <PatientHeaderText>{`Ваш приём назначен на \n ${textWindow}`}</PatientHeaderText>
         </ContentWrapper>
       </PatientWrapper>
     )
@@ -118,7 +180,7 @@ const PatientWrapper = styled.View`
 
 const ContentWrapper = styled.View`
   width: 100%;
-  height: 500px; 
+  height: 520px; 
   background-color: #A0BFFA;
   border-radius: 40px;
   margin-top: 50px;
@@ -137,7 +199,7 @@ const PatientHeaderText = styled.Text`
 const PatientBodyWrapper = styled.View`
   position: relative;
   width: 100%;
-  height: 160px;
+  height: 180px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -183,21 +245,19 @@ const FormValue = styled.Text`
 `;
 
 const DirectionWrapper = styled.View`
-  width: 180px;
-  height: 40px;
-  flex-direction: row;
+  width: 100%; 
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 20px;
 `;
 
 const DateWrapper = styled.View`
   width: 100%;
-  height: 250px;
+  height: 180px;
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin-bottom: 20px;
 `;
 
 const DayWrap = styled.View`
@@ -210,7 +270,7 @@ const DayWrap = styled.View`
 `;
 
 const MonthWrap = styled.View`
-  width: 120px;
+  width: 125px;
   height: 40px; 
   flex-direction: row;
   justify-content: flex-start;
@@ -228,10 +288,11 @@ const YearWrap = styled.View`
 `;
 
 const TimeWrapper = styled.View`
-  width: 220px;
-  height: 40px;
+  width: 190px;
+  height: 70px;
   flex-direction: column;
   justify-content: flex-start;
+  margin-bottom: 20px;
 `;
 
 const DoctorWrapper = styled.View`
@@ -257,4 +318,10 @@ const SubmitBtnText = styled.Text`
   line-height: 24px;
 `;
 
-export default PatientForm;
+const mapStateToProps = ({login}) => {
+  return {
+    login
+  }
+}
+
+export default connect(mapStateToProps)(PatientForm);

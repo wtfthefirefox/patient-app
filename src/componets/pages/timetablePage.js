@@ -16,7 +16,7 @@ const TimetablePage = ({ login }) => {
   
   const [isPatientFormActive, turnPatientForm] = useState(false);
   const [isLeave, turnLeave] = useState(false);
-  const [loading, turnLoading] = useState(false);
+  const [loading, turnLoading] = useState(true);
   const [items, changeItems] = useState('');
 
   useEffect( () => {
@@ -61,8 +61,17 @@ const TimetablePage = ({ login }) => {
       <ContentWrapper>
 
         {
-          items.map(item => {
-            return <PatientCard key={item.id} time={item.timestart} cabinet={item.id} data={item.data} last />
+          items.map((item, idx) => {
+            return <PatientCard 
+              key={item.id} 
+              time={`${item.timestart} ${item.data}`} 
+              cabinet={item.room} 
+              doctor={item.doctor} 
+              appointmentId={item.id}
+              changerLoading={turnLoading}
+              changerItems={changeItems}
+              last={idx != items.length - 1 ? true : false} 
+            />
           })
         }
 
