@@ -20,8 +20,8 @@ const LoginPage = ({ history, checkAuthorization }) => {
         <icons.BtnReturnLeft width={30} height={30} />
       </Link>
       <ContentWrapper>
-        <FormInput formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" textChangerFunc={ChangeEmailValue} />
-        <FormInput formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="100px" isPassword={true} textChangerFunc={ChangePasswordValue} />
+        <FormInput formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" textChangerFunc={ChangeEmailValue} maxSimbolsLength="320" />
+        <FormInput formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="100px" isPassword={true} textChangerFunc={ChangePasswordValue} maxSimbolsLength="40" />
         <TouchableOpacity onPress={ () => {
           if (emailValue != '' && passwordValue != '') {
             (async ()  => {

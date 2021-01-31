@@ -3,8 +3,9 @@ import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 
 import cancelAppointment from '../../utils/cancelAppointment';
+import getTimetableForPatient from '../../utils/getTimetableForPatient';
 
-const PatientCard = ({ isLast, time, cabinet, doctor, appointmentId, changerLoading, changerItems }) => {
+const PatientCard = ({ isLast, time, cabinet, doctor, appointmentId, changerLoading, changerItems, login }) => {
   return (
     <CardWrapper last={isLast}>
       <DateWrapper>
@@ -30,7 +31,7 @@ const PatientCard = ({ isLast, time, cabinet, doctor, appointmentId, changerLoad
           if (res) {
             changerLoading(true);
 
-            let query = await getAppoitmentsForDoctor(login);
+            let query = await getTimetableForPatient(login);
 
             changerLoading(false);
             changerItems(query.ans);

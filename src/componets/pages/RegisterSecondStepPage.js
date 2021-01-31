@@ -22,9 +22,9 @@ const RegisterSecondStepPage = ({ history, getRegisteration, dataFromFirstStep }
         <icons.BtnReturnLeft width={30} height={30} />
       </Link>
       <ContentWrapper>
-        <Form formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" textChangerFunc={ChangeEmailValue} />
-        <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="30px" isPassword={true} textChangerFunc={ChangePasswordValue} />
-        <Form formType="default" placeholderValue="********" formName="Повторите пароль" marginBottomValue="100px" isPassword={true} textChangerFunc={changePasswordRepeatedValue} />
+        <Form formType="email-address" placeholderValue="example@mail.com" formName="Почта" marginBottomValue="30px" textChangerFunc={ChangeEmailValue} maxSimbolsLength="320" />
+        <Form formType="default" placeholderValue="********" formName="Пароль" marginBottomValue="30px" isPassword={true} textChangerFunc={ChangePasswordValue} maxSimbolsLength="40" />
+        <Form formType="default" placeholderValue="********" formName="Повторите пароль" marginBottomValue="100px" isPassword={true} textChangerFunc={changePasswordRepeatedValue} maxSimbolsLength="40" />
         <TouchableOpacity style={{width: "80%"}} onPress={ async () => {
           let data = {
             ...dataFromFirstStep,

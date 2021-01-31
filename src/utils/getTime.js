@@ -1,10 +1,12 @@
+import _apiBase from './apiBase';
+
 const getTime = async (date, direction) => {
   let data = {
     data: date,
     direction
   }
 
-  let responce = await fetch("http://95.37.6.22:5000/get_time", {
+  let responce = await fetch(`${_apiBase}/get_time`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

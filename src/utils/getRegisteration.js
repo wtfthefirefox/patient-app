@@ -1,6 +1,8 @@
 import { addLogin } from '../redux/actionsCreator';
 import md5 from 'md5';
 
+import _apiBase from './apiBase'
+
 const getRegisteration = (data) => async (dispatch) => {
   
   let dataObj = {
@@ -8,7 +10,7 @@ const getRegisteration = (data) => async (dispatch) => {
     password: md5(data.password)
   }
 
-  let responce = await fetch("http://95.37.6.22:5000/reg", {
+  let responce = await fetch(`${_apiBase}/reg`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

@@ -25,12 +25,12 @@ const RegisterFirstStepPage = ({ funcToChangeData }) => {
           <icons.BtnReturnLeft width={30} height={30} />
         </Link>
         <ContentWrapper>
-          <FormInput formType="default" placeholderValue="Иванов" formName="Фамилия" marginBottomValue="30px" isPassword={false} textChangerFunc={changeLastNameValue} />
-          <FormInput formType="default" placeholderValue="Иван" formName="Имя" marginBottomValue="30px" isPassword={false} textChangerFunc={changeFirstNameValue} />
-          <FormInput formType="default" placeholderValue="Иванович" formName="Отчество" marginBottomValue="30px" isPassword={false} textChangerFunc={changePatronymicValue} />
-          <FormInput formType="numeric" placeholderValue="Ваш возраст" formName="Возраст" marginBottomValue="30px" isPassword={false} textChangerFunc={changeBirthDayValue} />
-          <FormInput formType="default" placeholderValue="12345678912" formName="Снилс" marginBottomValue="30px" isPassword={false} textChangerFunc={changeSnilsValue} />
-          <FormInput formType="default" placeholderValue="1234567891234567" formName="Полис" marginBottomValue="30px" isPassword={false} textChangerFunc={changePolisValue} />
+          <FormInput formType="default" placeholderValue="Иванов" formName="Фамилия" marginBottomValue="30px" isPassword={false} textChangerFunc={changeLastNameValue} maxSimbolsLength="100" />
+          <FormInput formType="default" placeholderValue="Иван" formName="Имя" marginBottomValue="30px" isPassword={false} textChangerFunc={changeFirstNameValue} maxSimbolsLength="100" />
+          <FormInput formType="default" placeholderValue="Иванович" formName="Отчество" marginBottomValue="30px" isPassword={false} textChangerFunc={changePatronymicValue} maxSimbolsLength="100" />
+          <FormInput formType="numeric" placeholderValue="Ваш возраст" formName="Возраст" marginBottomValue="30px" isPassword={false} textChangerFunc={changeBirthDayValue} maxSimbolsLength="3" />
+          <FormInput formType="default" placeholderValue="12345678912" formName="Снилс" marginBottomValue="30px" isPassword={false} textChangerFunc={changeSnilsValue} maxSimbolsLength="11" />
+          <FormInput formType="default" placeholderValue="1234567891234567" formName="Полис" marginBottomValue="30px" isPassword={false} textChangerFunc={changePolisValue} maxSimbolsLength="16" />
           <RadioBtns borderColor="#A0BFFA" trueColor="rgba(65, 206, 88, 0.5)" isChecked="true" arrayOfData={["Мужской", "Женский"]} funcToGetActiveValue={changeGenderValue} />
         </ContentWrapper>
         <TouchableOpacity style={{width: "80%"}} onPress={() => {

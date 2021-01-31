@@ -1,9 +1,11 @@
+import _apiBase from './apiBase';
+
 const getDirection = async (date) => {
   let dataObj = {
     data: date
   }
 
-  let responce = await fetch("http://95.37.6.22:5000/get_direction", {
+  let responce = await fetch(`${_apiBase}/get_direction`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

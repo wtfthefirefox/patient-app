@@ -1,6 +1,7 @@
 import { addLogin } from '../redux/actionsCreator';
 import md5 from 'md5';
 
+import _apiBase from './apiBase';
 
 const checkAuthorization = (emailValue, passValue) => async (dispatch) => {
 
@@ -9,7 +10,7 @@ const checkAuthorization = (emailValue, passValue) => async (dispatch) => {
     password: md5(passValue)
   };
 
-  let responce = await fetch("http://95.37.6.22:5000/login", {
+  let responce = await fetch(`${_apiBase}/login`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

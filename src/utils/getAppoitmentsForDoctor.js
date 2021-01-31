@@ -1,9 +1,11 @@
+import _apiBase from './apiBase';
+
 const getAppoitmentsForDoctor = async (login) => {
   const data = {
     login
   };
 
-  let responce = await fetch("http://95.37.6.22:5000/get_doctorappointments", {
+  let responce = await fetch(`${_apiBase}/get_doctorappointments`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

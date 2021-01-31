@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, ActivityIndicator } from 'react-native'; 
+import { TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl } from 'react-native'; 
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Portal from '@burstware/react-native-portal';
@@ -14,17 +14,22 @@ import getAppoitmentsForDoctor from '../../utils/getAppoitmentsForDoctor';
 const DoctorsPage = ({ login }) => {
 
   const [isLoading, turnLoading] = useState(true);
+  const [refreshing, turnRefreshing] = useState(false);
 
   const [isLeave, turnLeave] = useState(false);
 
   const [items, changeItems] = useState('');
 
+  const getTimetableForDoctor = async () => {
+    let res = await getAppoitmentsForDoctor(login);
+
+    changeItems(res.ans);
+    turnLoading(false);
+  }
+
   useEffect( () => {
     (async () => {
-      let res = await getAppoitmentsForDoctor(login);
-
-      changeItems(res.ans);
-      turnLoading(false);
+      getTimetableForDoctor();
     })()
   }, []);
 
@@ -38,36 +43,43 @@ const DoctorsPage = ({ login }) => {
 
   return (
     <Wrapper>
-      <TouchableOpacity style={{position: "absolute", right: 0, top: 45}} onPress={() => turnLeave(true)}>
-        <icons.BtnReturnRight width={30} height={30} />
-      </TouchableOpacity>
-
-      { isLeave &&
-
-        <Portal>
-          <LeaveWindow turnLeave={turnLeave} />
-        </Portal>
-      }
-      
-      <ContentWrapper>
-
-        {
-          items.map((item, idx) => {
-            return (
-              <DoctorCard 
-                name={item.name} 
-                date={`${item.timestart} ${item.data}`} 
-                idAppointment={item.id}
-                isLast={idx === items.length - 1}
-                login={login}
-                changerItems={changeItems} 
-                changerLoading={turnLoading}
-              />
-            )
-          })
+      <ScrollView 
+        style={{width: "100%", height: "100%"}} 
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={() => getTimetableForDoctor()}/>
         }
+      >
+        <TouchableOpacity style={{position: "absolute", right: 0, top: 45}} onPress={() => turnLeave(true)}>
+          <icons.BtnReturnRight width={30} height={30} />
+        </TouchableOpacity>
 
-      </ContentWrapper>
+        { isLeave &&
+
+          <Portal>
+            <LeaveWindow turnLeave={turnLeave} />
+          </Portal>
+        }
+        
+        <ContentWrapper>
+
+          {
+            items.map((item, idx) => {
+              return (
+                <DoctorCard 
+                  name={item.name} 
+                  date={`${item.timestart} ${item.data}`} 
+                  idAppointment={item.id}
+                  isLast={idx === items.length - 1}
+                  login={login}
+                  changerItems={changeItems} 
+                  changerLoading={turnLoading}
+                />
+              )
+            })
+          }
+
+        </ContentWrapper>
+      </ScrollView>
     </Wrapper>
   )
 }

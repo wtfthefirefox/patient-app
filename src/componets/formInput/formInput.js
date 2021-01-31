@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import styled from 'styled-components';
 
-const FormInput = ({formType, placeholderValue, formName, marginBottomValue, isPassword, textChangerFunc}) => {
+const FormInput = ({ formType, placeholderValue, formName, marginBottomValue, isPassword, maxSimbolsLength, textChangerFunc }) => {
   return (
     <FormWrapper marginBottomVal={marginBottomValue}>
       <FormName>{formName}</FormName>
-      <TextInput style={styles.Form} keyboardType={formType} placeholder={placeholderValue} secureTextEntry={isPassword}  onChangeText={(text) => textChangerFunc(text)} /> 
+      <TextInput style={styles.Form} keyboardType={formType} placeholder={placeholderValue} secureTextEntry={isPassword}  onChangeText={(text) => textChangerFunc(text)} maxLength={parseInt(maxSimbolsLength, 10)} /> 
     </FormWrapper>
   )
 }

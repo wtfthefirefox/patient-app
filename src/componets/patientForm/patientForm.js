@@ -6,12 +6,13 @@ import styled from 'styled-components';
 import icons from '../../../assets/svg/icons';
 
 import getTimeToAppointment from '../../utils/getTimeToAppointment';
+import getTimetableForPatient from '../../utils/getTimetableForPatient';
 
 import TimetableWindow from '../timetableWindow';
 import PatientDirectionWindow from '../patientDirectionWindow';
 import PatientDoctorsWindow from '../patientDoctorsWindow';
 
-const PatientForm = ( { closeWindow, login } ) => {
+const PatientForm = ( { closeWindow, loadingFunc, changerItemsFunc, login } ) => {
 
   const [textWindow, changeTextWindow] = useState('');
 
